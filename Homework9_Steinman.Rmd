@@ -1,0 +1,202 @@
+---
+title: "Homework 9"
+author: "Lesley Steinman"
+date: "March 15, 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+1.0 INTRODUCTION
+
+Lithuania is a country and the southernmost of Europe's Baltic states, a former Soviet bloc nation bordering Poland, Latvia and Belarus.In 2017, Lithuania had a population of 2.8 million people, a GDP of $28,645 per capita, a fertility rate of 1.6, and average 13.7 years of eductional attainment (IHME, 2017, http://www.healthdata.org/lithuania). In 2017 the average life expectancy was 80.2 for women and 10 years younger for men (69.6) (IHME, 2017). The leading causes of death in 2017 was ischemic heart disease, stroke and Alzheimer's disease, and low back pain, falls and headache disorders cause the most diability (IHME, 2017). Lithuania has higher than average premature mortality (as measured by years of lives lost) for 9 out of 10 most common causes, when compared to other countries with a high social development index (IHME, 2017).
+
+2.0 METHODS
+
+2.1 DATA SOURCE
+
+2.1.1. Database
+
+The Human Mortality Database (HMD, http://www.mortality.org) was created to provide detailed mortality and population data to researchers, students, journalists, policy analysts, and others interested in the history of human longevity. The HMD contains original calculations of death rates and life tables for national populations (countries or areas), as well as the input data used in constructing those tables. The input data consist of death counts from vital statistics, plus census counts, birth counts, and population estimates from various sources. 
+
+2.1.2 Coverage and Completeness for Lithuania
+
+Data on deaths for the period of the Soviet rule (1959-1989) have been collected at the State Archive. Statistics Lithuania provided unpublished manuscripts with population estimates for the 1960s, 1970s and 1980s. Newly recalculated population estimates for the period from 1989 to 2001 have also been obtained from Statistics Lithuania (in computerized datafiles). Data from the 1970, 1979 and 1989 censuses come from the materials published by the Statistical Office of the Lithuanian SSR or the Central Statistical Office of the USSR. Relevant data on deaths and population for the 1990s come from the publications, unpublished manuscripts or computer files provided by Statistics Lithuania. Birth data have been published in the statistical abstracts of the "Natural increase and migration of the population of the Lithuanian SSR" and the Demographic Yearbooks of Lithuania for the most recent years. All the data used for the HMD were collected and prepared by V.Stankuniene and D.Jasilionis. Most of the data for the period 2001 onwards have been obtained via the online database maintained by Statistics Lithuania (http://www.stat.gov.lt)
+
+The following procedure for the registration of deaths has been in force in Lithuania. First, a medical death certificate is issued by a medical or judicial institution. Afterwards the certificate must be forwarded (usually by relatives) to the local Civil Registry office. The latter institution issues a death certificate (on the basis of the medical death certificate) and enters the information into the Central Database of the Population Register of Lithuania. Every 24 hours, death record information (together with medical death certificate data on causes of death) is downloaded from the HMD database by Statistics Lithuania via an on-line access method. 
+
+Four population censuses (1959, 1970, 1979 and 1989) took place in Lithuania during the period of Soviet rule (1940-1989). Two censuses (2001 and 2011) have been conducted since the restoration of Lithuania's independence in 1990. Official population estimates as of January 1st, based on census data and vital statistics on deaths, births and migration have been produced by the Statistical Office of the Lithuanian SSR and the Central Statistical Office of the USSR for the periods 1960- 1969, 1971-1979, and 1980-1988. Newly recalculated inter-censal population estimates for the two inter-censal periods from 1989 to 2000 and from 2001 to 2011 have been provided as Excel files by Statistics Lithuania or downloaded from the online database maintained by the national statistics office. The official January 1st estimates for the census years 1959 and 1970 are not available to us. All the population data for the period 1970-2017 correspond to the "permanently resident" population. 
+
+Note that the  quality of the data for 1959-1979 is lower than in later years and these data should be used with caution.
+
+2.2 ANALYSIS
+
+I ran several analyses to examine life expectancy in Lithuania.
+
+a) Describe the Lithuania life expectancy data using descriptive statistics.
+
+b) How does the average 1990 and 2019 life expectancy compare to the IHME estimates?
+
+c) Has life expectancy increased, decreased, or stayed the same over time?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message=F, warning=F)
+```
+
+```{r}
+library(readxl)
+LE <- read_excel("U:/CSDE 502 Win 2019/Homeworks/lithlife.xlsx")
+View(LE)
+```
+
+```{r}
+# install.packages("tidyverse")
+#install.packages("knitr")
+#install.packages("stargazer")
+#install.packages("sf")
+#install.packages("plotly")
+#install.packages("uwIntroStats")
+
+#rm(list=ls())
+#library(tidyverse)
+#ibrary(knitr)
+#library(stargazer)
+#library(sf)
+#library(plotly)
+#library(uwIntroStats)
+```
+
+3. RESULTS
+
+3.1 Descriptives
+
+```{r}
+
+str(LE)
+
+summary(LE$Year)
+
+summary(LE$Total)
+
+summary(LE$Female)
+
+summary(LE$Male)
+
+```
+
+The life expectancy dataset has 59 years of data from 1959 to 2017. The average total life expectancy is 71.51 (ranging from 67.73 - 75.70). For women, the average LE is 76.27 (range 70.63 - 80.37) and for men the average and min and max LE is ten years lower 66.54 (range 62.51 - 70.70).
+
+```{r}
+# Calculate means of average LE by decade
+# decade50 <- subset(LE, Year<1960)
+# mean(decade50$Total)
+
+# decade60 <- subset(LE, Year>1959 & Year<1970)
+# mean(decade60$Total)
+
+# decade70 <- subset(LE, Year>1969 & Year<1980)
+# mean(decade70$Total)
+
+# decade80 <- subset(LE, Year>1979 & Year<1990)
+# mean(decade80$Total)
+
+# decade90 <- subset(LE, Year>1989 & Year<2000)
+# mean(decade90$Total)
+
+# decade00 <- subset(LE, Year>1999 & Year<2010)
+# mean(decade00$Total)
+
+# decade10 <- subset(LE, Year>2010)
+# mean(decade10$Total)
+
+```
+
+```{r, echo=FALSE}
+# create table of means by decade
+meanLE <- matrix(c(67.3, 71.10, 71.26, 71.30, 70.3, 71.73, 74.46, "1950", "1960", "1970", "1980", "1990", "2000", "2010"),ncol=2,byrow=FALSE)
+colnames(meanLE) <- c("Mean Life Expectancy", "Decade")
+meanLE <- as.table(meanLE)
+meanLE
+
+```
+
+3.2 Plots
+
+```{r, echo=FALSE}
+plot(x=LE$Year, y=LE$Total, xlab="Year", ylab="Total Life Expectancy", main="Total life expectancy by Year")
+```
+
+There appears to be somehwat of a non-linear relationship between year and total life expectancy, with life expectancy fairly steady from 1959 to 1985, decreasing in 1985 - 1994, then increasing from 1995 to 2017. 
+
+```{r, echo=FALSE}
+plot(x=LE$Year, y=LE$Female, xlab="Year", ylab="Female Life Expectancy", main="Female life expectancy by Year", col="red")
+```
+
+There appears to be a linear relationship between year and female life expectancy, with life expectancy for women increasing from 1959 to 2017.
+
+```{r, echo=FALSE}
+plot(x=LE$Year, y=LE$Male, xlab="Year", ylab="Male Life Expectancy", main="Male life expectancy by Year", col="blue")
+```
+
+There does not appear to be a linear relationship between year and male life expectancy. It appears that men are driving this non-linear relationship seen in the first plot of total life ecpectancy by year.
+
+3.3 Regressions
+
+```{r, echo=FALSE}
+LE.lm1<-lm(Total ~ Year, data=LE)
+summary(LE.lm1)
+
+plot(Total ~ Year, data=LE,main="Total life expectancy by Year")
+abline(LE.lm1)
+```
+
+This first regression model suggests that there is a linear trend in life expectency over time for persons in Lithuania (coefficient = 0.048 and p = SS (0.00). This is what we hypothesized given the earlier plots.
+
+```{r, echo=FALSE}
+LE.lm2<-lm(Female ~ Year, data=LE)
+summary(LE.lm2)
+
+plot(Female ~ Year, data=LE,main="Female life expectancy by Year", col = "red")
+abline(LE.lm2)
+```
+
+This second regression model suggests that there is a linear trend in life expectency over time for females in Lithuania (p = SS (0.00). This is what we hypothesized given the earlier plots.
+
+```{r, echo=FALSE}
+LE.lm3<-lm(Male ~ Year, data=LE)
+summary(LE.lm3)
+
+plot(Male ~ Year, data=LE,main="Male life expectancy by Year", col="blue")
+abline(LE.lm3)
+```
+
+This third regression model suggests that there is no linear trend in life expectency over time for males in Lithuania (coefficient = 0.009 and p = NS (0.45). This is what we hypothesized given the earlier plots.
+
+These regression models suggest that the linear trend in increasing life expectancy in Lithuania in 1959 to 2017 is largely driven by improvements in female's life expectancy over time and in particular during 1985 - 1994 when males life expectancy was declining. It would be interesting to look at what was happening historically for men during this time. I do not know much Lithuanian history except for the fall of the Soviet Block in 1990 which one would think wold haev improved health outcomes for both men and women.
+
+3.5. Compare Human Mortality Database data to IHME data
+
+```{r, echo=FALSE}
+# IHME LE data for females is 76.2 for 1990 and 80.2 for 2017
+# IHME LE data for males is 66.4 for 1990 and 69.6 for 2017
+# in HMD data, 1990 is row 32 and 2019 is row 59
+
+# check HMD data
+# LE$Female[32]
+# LE$Female[59]
+# LE$Male[32]
+# LE$Male[59]
+```
+
+```{r, echo=FALSE}
+# create a table comparing data from HMD and IHME
+
+compare <-matrix(c(76.2,76.2,80.4,80.2,66.4,66.4,70.7,69.6),ncol=2,byrow=TRUE)
+rownames(compare)<-c("female1990","female2017", "male1990", "male2017")
+colnames(compare)<-c("HMD","IHME")
+compare <- as.table(compare)
+compare
+```
+
+The HMD and IHME data is the same for 1990 and similar but not identifcal for 2017 suggesting that either the HMD or IHME databases are still updating their figures for 2017 or are using different calculations for 2017.
+
